@@ -1,4 +1,4 @@
-import numpy as np 
+import numpy as np
 from numpy import sqrt
 from scipy.optimize import fsolve
 
@@ -21,4 +21,4 @@ x = fsolve(resolvente, x0, args=data)
 for i in range(0, 11, 2):
 	print(i)
 
-
+print ("esto esta hecho por samuel")
