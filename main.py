@@ -1,24 +1,26 @@
-import numpy as np 
-from numpy import sqrt
-from scipy.optimize import fsolve
+import functions.mat_trans
+import functions.moment_method
+from numpy import matrix, zeros
+import csv
+###################################### DATA #######################################################################
 
-b = 0
-c = -4
-a = 1
 
-data = (a, b, c)
 
-def resolvente(x, *data):
-	a, b, c = data
-	return - x + (-b - sqrt( b**2 - 4 * a * c) / (2 * a))
 
-x0 = -0.1
 
-#a = resolvente(a0, *data)
 
-x = fsolve(resolvente, x0, args=data)
+# Loss Given Default.
+# Perdidas Dado el Incumplimiento.
+#LGD = 45
 
-for i in range(0, 11, 2):
-	print(i)
+# Expoture At Default
+# Exposicion ante el incumplimiento
+#EAD = 100
+
+#A = zeros((17,17))
+#print(A[1][1])
+
+
+
 
 
