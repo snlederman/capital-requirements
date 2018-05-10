@@ -179,11 +179,13 @@ def mt(data, DEBUG=False):
     stop = timeit.default_timer()
     execution_time = stop - start
     if DEBUG:
+        '''
         print(Mt)
         for country in df_data.drop_duplicates(['country'])['country'].values:
             print(df_data[df_data.country == country].values[-1])
         for i in range(N_id):
             print(sum(Mt[i]))
+        '''
         print("mat_trans Program Executed in {} seconds".format(execution_time))
 
 
@@ -198,6 +200,5 @@ def mt(data, DEBUG=False):
             Pd = 99.9999999
         sol['Pd'].append(Pd)
         sol['d'].append(norm.ppf(Pd/ 100))
-    df_sol = pd.DataFrame(data=sol).sort_values('country')
-    print(df_sol)
+    #df_sol = pd.DataFrame(data=sol).sort_values('country')
     return sol
