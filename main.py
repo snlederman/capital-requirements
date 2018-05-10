@@ -1,4 +1,4 @@
-#from functions.mat_trans import mt
+from functions.mat_trans import mt
 from functions.moment_method import correlation
 import csv
 
@@ -31,7 +31,7 @@ data_mm = data
  Loss Given Default.
  Perdidas Dado el Incumplimiento.
 '''
-LGD = 45
+LGD = .45
 '''
  Expoture At Default
  Exposicion ante el incumplimiento
@@ -39,8 +39,8 @@ LGD = 45
 EAD = 100
 
 ############################################ MODEL #####################################################################
-#Mt = mt(data_mt)
-rho = correlation(data_mm, DEBUG=True)
+sol = mt(data_mt)
+rho = correlation(data_mm, sol, LGD, EAD)
 
 
 
