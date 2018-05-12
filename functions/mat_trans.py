@@ -13,6 +13,7 @@ COUNTRIES = ['Argentina', 'Bolivia', 'Brasil', 'Chile', 'Colombia', 'Costa Rica'
 from multiprocessing import Pool
 from multiprocessing.dummy import Pool as PoolTh
 
+
 def n_date(date):
     """
     :param date: Un str con una fecha correspondiente.

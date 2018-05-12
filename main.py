@@ -1,7 +1,7 @@
 import csv
 
 from functions.mat_trans import mt
-from functions.moment_method import correlation
+from functions.moment_method import correlation, correlation_manuel
 
 ############################################ DATA ######################################################################
 """
@@ -41,4 +41,8 @@ EAD = 100
 
 ############################################ MODEL #####################################################################
 sol = mt(data_mt)
-rho = correlation(data_mm, sol, LGD, EAD)
+rho1 = correlation(data_mm, sol, LGD, EAD)
+#rho2 = correlation_manuel(data_mm, sol, LGD, EAD)
+
+
+
