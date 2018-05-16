@@ -4,7 +4,7 @@ import timeit
 import pandas as pd
 from numpy import zeros
 from scipy.linalg import expm
-from scipy.stats import norm
+from scipy.stats import norm, t
 
 COUNTRIES = ['Argentina', 'Bolivia', 'Brasil', 'Chile', 'Colombia', 'Costa Rica', 'Ecuador', 'El Salvador',
              'Guatemala', 'Honduras', 'Mexico', 'Panama', 'Paraguay', 'Peru', 'Republica Dominicana', 'Uruguay',
@@ -136,7 +136,7 @@ def mt(data, DEBUG=False):
             - Para la ultima iteracion se toma el to y se resta con respecto a la 
             diferencia que hay entre el tiempo final y el tiempo inicial.
             - Y para el tiempo final se toma el ultimo el ultimo tiempo.
-            
+
     """
     df_data.sort_values(['id', 'date'])
     dt = []  # Duracion.
@@ -220,6 +220,8 @@ def mt(data, DEBUG=False):
         if Pd == 100:
             Pd = 99.9999999
         sol['Pd'].append(Pd)
-        sol['d'].append(norm.ppf(Pd / 100))
+        # sol['d'].append(norm.ppf(Pd / 100))
+        alfa = 3
+        sol['d'].append(t.ppf(Pd / 100, alfa))
     # df_sol = pd.DataFrame(data=sol).sort_values('country')
     return sol

@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from scipy.optimize import fsolve
-from scipy.stats import norm, multivariate_normal
+from scipy.stats import norm, multivariate_normal, t
 
 from functions.mat_trans import COUNTRIES
 
@@ -20,14 +20,14 @@ def fun(rho, *args):
     return P2 - multivariate_normal.cdf(x, mean, cov)
 
 
-def _loss_cal(sqrt_ro, sqrt_1_rho, LGDxEAD, vals):
+def _loss_cal(sqrt_ro, sqrt_1_rho, LGDxEAD, vals, z, epsilon, chi2_a):
     aux = 0
-    z = np.random.normal(0, 1)
+    i = 0
     for country in COUNTRIES:
-        epsilon = np.random.normal(0, 1)
-        a = sqrt_ro * z + sqrt_1_rho * epsilon
+        a = sqrt_ro * z + sqrt_1_rho * epsilon[i] / chi2_a
         if a <= vals[country]:
             aux += LGDxEAD
+        i += 1
     return aux
 
 
@@ -61,8 +61,14 @@ def correlation(data, sol, LGD, EAD, DEBUG=False):
     for country in COUNTRIES:
         vals[country] = df_sol[df_sol['country'] == country].d.values
 
+    z = np.random.normal(0, 1, NUMERO_ITERACIONES)
+    epsilon = np.random.normal(0, 1, (NUMERO_ITERACIONES, len(COUNTRIES)))
+    alfa = 3
+    chi2 = np.random.chisquare(alfa, NUMERO_ITERACIONES)
+    chi2_a = list(map(lambda x: np.sqrt(x/alfa), chi2))
+
     loss = _loss_pool.starmap(_loss_cal,
-                              [(sqrt_rho, sqrt_1_rho, LGDxEAD, vals) for i in
+                              [(sqrt_rho, sqrt_1_rho, LGDxEAD, vals, z[i], epsilon[i], chi2_a[i]) for i in
                                range(NUMERO_ITERACIONES)])
 
     loss.sort()
@@ -112,7 +118,7 @@ def correlation_manuel(data, sol, LGD, EAD, DEBUG=False):
         aux = 0
         for country in countries.keys():
             epsilon = np.random.normal(0, 1)
-            a = np.sqrt(rho) * z + np.sqrt(1 - rho) * epsilon
+            a = np.sqrt(rho) * z + np.sqrt(1 - rho) * epsilon / np.sqrt()
             if a <= df_sol[df_sol['country'] == country].d.values:
                 aux += LGD * EAD
         loss.append(aux)
